@@ -23,7 +23,7 @@
     _model = model;
     self.titleLabel.text = model.title;
     self.titleLabel.textColor = model.selected?[UIColor redColor]:[UIColor blackColor];
-    self.titleLabel.font = model.selected?[UIFont boldSystemFontOfSize:20]:[UIFont systemFontOfSize:15];
+    self.titleLabel.font = model.selected?[UIFont boldSystemFontOfSize:25]:[UIFont systemFontOfSize:15];
 }
 
 @end

@@ -26,6 +26,7 @@
     self.topCollectionHeight.constant = isPad ? (49 * 1.5) : 49;
     [self.bottomCollectionView registerClass:[BottomCollectionViewCell class] forCellWithReuseIdentifier:@"BottomCollectionViewCell"];
     [self.topCollectionView registerNib:[UINib nibWithNibName:@"TopCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"TopCollectionViewCell"];
+    self.automaticallyAdjustsScrollViewInsets = false;
     [self fetchData];
     // Do any additional setup after loading the view.
 }

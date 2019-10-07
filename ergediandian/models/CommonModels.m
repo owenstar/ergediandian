@@ -27,7 +27,7 @@
     TopModel * model = [[TopModel alloc]init];
     model.title = title;
     model.selected = selected;
-    model.width = [title sizeWithFont:[UIFont boldSystemFontOfSize:20]].width + 20;
+    model.width = [title sizeWithFont:[UIFont boldSystemFontOfSize:25]].width + 20;
     return  model;
 }
 @end

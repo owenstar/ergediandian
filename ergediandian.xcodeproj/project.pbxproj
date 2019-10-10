@@ -97,6 +97,11 @@
 		0A931717234B2C6A009CC212 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9316B9234B2C6A009CC212 /* main.m */; };
 		0A931718234B2C6A009CC212 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9316BA234B2C6A009CC212 /* AppDelegate.m */; };
 		0A931719234B2C6A009CC212 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9316BC234B2C6A009CC212 /* Info.plist */; };
+		6E571BF8234F33EB00E3AD14 /* PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E571BF6234F33EB00E3AD14 /* PlayViewController.m */; };
+		6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */; };
+		6E571BFB234F387700E3AD14 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFA234F387700E3AD14 /* bg.jpg */; };
+		6E571BFE234F3E0100E3AD14 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFC234F3E0000E3AD14 /* play.png */; };
+		6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFD234F3E0100E3AD14 /* stopPlay.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -284,6 +289,12 @@
 		0A9316BE234B2C6A009CC212 /* URLConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLConst.h; sourceTree = "<group>"; };
 		0A9316BF234B2C6A009CC212 /* SystemMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMacros.h; sourceTree = "<group>"; };
 		0AFEADB4233657FC00701782 /* ergediandian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ergediandian.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E571BF5234F33EB00E3AD14 /* PlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayViewController.h; sourceTree = "<group>"; };
+		6E571BF6234F33EB00E3AD14 /* PlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayViewController.m; sourceTree = "<group>"; };
+		6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayViewController.xib; sourceTree = "<group>"; };
+		6E571BFA234F387700E3AD14 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
+		6E571BFC234F3E0000E3AD14 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
+		6E571BFD234F3E0100E3AD14 /* stopPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopPlay.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -514,6 +525,9 @@
 			children = (
 				0A9316A1234B2C6A009CC212 /* ViewController.h */,
 				0A9316A0234B2C6A009CC212 /* ViewController.m */,
+				6E571BF5234F33EB00E3AD14 /* PlayViewController.h */,
+				6E571BF6234F33EB00E3AD14 /* PlayViewController.m */,
+				6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -556,6 +570,9 @@
 		0A9316B3234B2C6A009CC212 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				6E571BFC234F3E0000E3AD14 /* play.png */,
+				6E571BFD234F3E0100E3AD14 /* stopPlay.png */,
+				6E571BFA234F387700E3AD14 /* bg.jpg */,
 				0A9316B4234B2C6A009CC212 /* AppDelegate.h */,
 				0A9316B5234B2C6A009CC212 /* Assets.xcassets */,
 				0A9316B6234B2C6A009CC212 /* LaunchScreen.storyboard */,
@@ -666,9 +683,13 @@
 			files = (
 				0A93170D234B2C6A009CC212 /* TopCollectionViewCell.xib in Resources */,
 				0A931716234B2C6A009CC212 /* Main.storyboard in Resources */,
+				6E571BFE234F3E0100E3AD14 /* play.png in Resources */,
+				6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */,
 				0A931719234B2C6A009CC212 /* Info.plist in Resources */,
+				6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */,
 				0A931715234B2C6A009CC212 /* LaunchScreen.storyboard in Resources */,
 				0A931714234B2C6A009CC212 /* Assets.xcassets in Resources */,
+				6E571BFB234F387700E3AD14 /* bg.jpg in Resources */,
 				0A93170F234B2C6A009CC212 /* MainCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -733,6 +754,7 @@
 				0A9316C4234B2C6A009CC212 /* MJExtensionConst.m in Sources */,
 				0A9316EA234B2C6A009CC212 /* SDDiskCache.m in Sources */,
 				0A93170B234B2C6A009CC212 /* ViewController.m in Sources */,
+				6E571BF8234F33EB00E3AD14 /* PlayViewController.m in Sources */,
 				0A9316E2234B2C6A009CC212 /* SDMemoryCache.m in Sources */,
 				0A9316E9234B2C6A009CC212 /* SDImageIOCoder.m in Sources */,
 				0A9316D0234B2C6A009CC212 /* SDImageHEICCoder.m in Sources */,

@@ -11,11 +11,22 @@
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
-#import "NSString+Size.h"
-#import "LENNetworkRequest.h"
-#import "MJExtension.h"
-#import "UIImageView+WebCache.h"
+//model
 #import "CommonModels.h"
 
+//tool
+#import "LENNetworkRequest.h"
+#import "MJExtension.h"
+#import "Masonry.h"
+
+//macro
 #import "SystemMacros.h"
+
+//vc
+#import "PlayViewController.h"
+
+//category
+#import "NSString+Size.h"
+#import "UIImageView+WebCache.h"
+#import "NSObject+UIViewController.h"
 #endif /* PrefixHeader_pch */

@@ -107,11 +107,6 @@
     return YES;
 }
 
-//-(void)setCurrentDataWithIndex:(NSInteger)index
-//{
-//    BottomCollectionViewCell * cell = (BottomCollectionViewCell *)[self.bottomCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]] ;
-//    cell.dataArray = self.dataTotalArray[index];
-//}
 
 
 #pragma mark - fetchdata
@@ -191,5 +186,10 @@
         _dataTotalArray = [NSMutableArray new];
     }
     return _dataTotalArray;
+}
+
+#pragma mark - rotate
+- (BOOL)shouldAutorotate {
+    return NO;
 }
 @end

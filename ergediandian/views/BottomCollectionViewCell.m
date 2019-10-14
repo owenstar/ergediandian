@@ -74,7 +74,9 @@
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-   
+    PlayViewController * vc = [[PlayViewController alloc]init];
+    vc.model = self.dataArray[indexPath.item];
+    [[NSObject getCurrentViewController] presentViewController:vc animated:YES completion:nil];
 }
 
 //返回这个UICollectionView是否可以被选择

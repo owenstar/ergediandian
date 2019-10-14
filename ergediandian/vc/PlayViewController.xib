@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayViewController">
             <connections>
+                <outlet property="rightListView" destination="0LP-Uo-nyK" id="R52-0n-wLE"/>
+                <outlet property="showView" destination="wU0-Ju-n7n" id="M1T-8x-VE8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -36,51 +38,24 @@
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wU0-Ju-n7n">
                     <rect key="frame" x="44" y="0.0" width="808" height="393"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lhq-aN-Bgl">
-                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="Lhq-aN-Bgl" secondAttribute="height" id="M5f-Bi-Afv"/>
-                                <constraint firstAttribute="width" constant="80" id="VTH-VX-7In"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6R-X1-eSZ">
-                            <rect key="frame" x="0.0" y="313" width="80" height="80"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="a6R-X1-eSZ" secondAttribute="height" id="BzL-gH-w0T"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="hCa-22-3Ld"/>
-                                <constraint firstAttribute="width" secondItem="a6R-X1-eSZ" secondAttribute="height" multiplier="1:1" id="r8q-xZ-51I"/>
-                                <constraint firstAttribute="width" constant="80" id="yqU-Aw-IFp"/>
-                            </constraints>
-                            <state key="normal" image="play.png"/>
-                            <state key="selected" image="stopPlay.png"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaK-7A-4nv">
-                            <rect key="frame" x="728" y="313" width="80" height="80"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="gaK-7A-4nv" secondAttribute="height" multiplier="1:1" id="OBF-TG-3ih"/>
-                                <constraint firstAttribute="width" secondItem="gaK-7A-4nv" secondAttribute="height" id="iOa-E1-MAW"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="keD-5d-zsd"/>
-                                <constraint firstAttribute="width" constant="80" id="qhy-IN-nf4"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                        </button>
-                    </subviews>
                     <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="gaK-7A-4nv" secondAttribute="bottom" id="2zD-iS-ZQk"/>
-                        <constraint firstAttribute="trailing" secondItem="gaK-7A-4nv" secondAttribute="trailing" id="Hef-Kj-bKF"/>
-                        <constraint firstAttribute="bottom" secondItem="a6R-X1-eSZ" secondAttribute="bottom" id="a0w-hu-dkz"/>
-                        <constraint firstItem="Lhq-aN-Bgl" firstAttribute="top" secondItem="wU0-Ju-n7n" secondAttribute="top" id="gtp-se-cKg"/>
-                        <constraint firstItem="Lhq-aN-Bgl" firstAttribute="leading" secondItem="wU0-Ju-n7n" secondAttribute="leading" id="oO7-w0-TY2"/>
-                        <constraint firstItem="a6R-X1-eSZ" firstAttribute="leading" secondItem="wU0-Ju-n7n" secondAttribute="leading" id="tKc-E6-44w"/>
-                    </constraints>
                     <viewLayoutGuide key="safeArea" id="9Pb-9X-v3M"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lhq-aN-Bgl">
+                    <rect key="frame" x="44" y="0.0" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Lhq-aN-Bgl" secondAttribute="height" id="M5f-Bi-Afv"/>
+                        <constraint firstAttribute="width" constant="80" id="VTH-VX-7In"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="backAction:" destination="-1" eventType="touchUpInside" id="Jrz-nb-JFf"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="Lhq-aN-Bgl" firstAttribute="top" secondItem="wU0-Ju-n7n" secondAttribute="top" id="IfK-n7-OAF"/>
                 <constraint firstItem="ecl-Iq-VLq" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="L5n-5s-r7H"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="wU0-Ju-n7n" secondAttribute="trailing" id="Mir-9q-fy7"/>
                 <constraint firstAttribute="bottom" secondItem="ecl-Iq-VLq" secondAttribute="bottom" id="N2E-fW-hNa"/>
@@ -89,6 +64,7 @@
                 <constraint firstItem="wU0-Ju-n7n" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="XNs-Wt-AFE"/>
                 <constraint firstItem="wU0-Ju-n7n" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="fNF-2r-fEf"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0LP-Uo-nyK" secondAttribute="bottom" id="gS6-IO-BkO"/>
+                <constraint firstItem="Lhq-aN-Bgl" firstAttribute="leading" secondItem="wU0-Ju-n7n" secondAttribute="leading" id="nY9-fb-l8P"/>
                 <constraint firstItem="0LP-Uo-nyK" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="tcl-ZG-dFt"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="wU0-Ju-n7n" secondAttribute="bottom" id="wFr-gw-X7V"/>
                 <constraint firstAttribute="trailing" secondItem="ecl-Iq-VLq" secondAttribute="trailing" id="y1A-Bk-h0c"/>
@@ -99,7 +75,5 @@
     </objects>
     <resources>
         <image name="bg.jpg" width="1018" height="640"/>
-        <image name="play.png" width="48" height="48"/>
-        <image name="stopPlay.png" width="48" height="48"/>
     </resources>
 </document>

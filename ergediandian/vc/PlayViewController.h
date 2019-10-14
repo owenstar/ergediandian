@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayViewController : UIViewController
-
+@property (nonatomic, strong) PlayModel * model;
 @end
 
 NS_ASSUME_NONNULL_END

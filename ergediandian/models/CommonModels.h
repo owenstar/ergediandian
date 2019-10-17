@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString * image;//缩略图
 @property (nonatomic, strong) NSString * play_count;//播放次数
 @property (nonatomic, strong) NSString * duration;//时长
+@property (nonatomic, assign) BOOL isSelected;//是否选中状态
 @end
 
 

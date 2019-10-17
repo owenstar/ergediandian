@@ -25,6 +25,10 @@
     self.imageview.image = nil;
     [self.imageview sd_setImageWithURL:[NSURL URLWithString:model.image] placeholderImage:[UIImage imageNamed:@""]];
     self.label.text = model.name;
+    self.layer.borderColor = model.isSelected?[UIColor redColor].CGColor:[UIColor lightGrayColor].CGColor;
+    self.layer.borderWidth = 2;
+    self.layer.cornerRadius = 5;
+    self.layer.masksToBounds = YES;
 }
 
 @end

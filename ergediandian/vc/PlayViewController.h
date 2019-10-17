@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayViewController : UIViewController
-@property (nonatomic, strong) PlayModel * model;
+@property (nonatomic, strong) NSArray <PlayModel *>* dataArray;
+@property (nonatomic, assign) NSInteger index;
 @end
 
 NS_ASSUME_NONNULL_END

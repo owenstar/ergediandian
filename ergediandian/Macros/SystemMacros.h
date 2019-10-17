@@ -14,4 +14,15 @@
 
 #define isPad [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad
 
+#define isIphoneX ({\
+BOOL isPhoneX = NO;\
+if (@available(iOS 11.0, *)) {\
+if (!UIEdgeInsetsEqualToEdgeInsets([UIApplication sharedApplication].delegate.window.safeAreaInsets, UIEdgeInsetsZero)) {\
+isPhoneX = YES;\
+}\
+}\
+isPhoneX;\
+})
+
+#define kTabOffset isIphoneX?44:0
 #endif /* SystemMacros_h */

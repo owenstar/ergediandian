@@ -102,6 +102,10 @@
 		6E571BFB234F387700E3AD14 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFA234F387700E3AD14 /* bg.jpg */; };
 		6E571BFE234F3E0100E3AD14 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFC234F3E0000E3AD14 /* play.png */; };
 		6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFD234F3E0100E3AD14 /* stopPlay.png */; };
+		6E8DBF992359CDDF007E8A64 /* SUDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8DBF922359CDDE007E8A64 /* SUDownloadTask.m */; };
+		6E8DBF9A2359CDDF007E8A64 /* SUURLAssetSourceLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8DBF932359CDDE007E8A64 /* SUURLAssetSourceLoader.m */; };
+		6E8DBF9B2359CDDF007E8A64 /* SURange.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8DBF962359CDDE007E8A64 /* SURange.m */; };
+		6E8DBF9C2359CDDF007E8A64 /* SUAdvancePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8DBF982359CDDE007E8A64 /* SUAdvancePlayer.m */; };
 		6EAA08C32354544A00DDD157 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08AB2354544900DDD157 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		6EAA08C42354544A00DDD157 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08B42354544A00DDD157 /* ViewController+MASAdditions.m */; };
 		6EAA08C52354544A00DDD157 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08B82354544A00DDD157 /* MASCompositeConstraint.m */; };
@@ -314,6 +318,15 @@
 		6E571BFA234F387700E3AD14 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
 		6E571BFC234F3E0000E3AD14 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		6E571BFD234F3E0100E3AD14 /* stopPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopPlay.png; sourceTree = "<group>"; };
+		6E8DBF8E2359CDDE007E8A64 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		6E8DBF902359CDDE007E8A64 /* SUDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUDownloadTask.h; sourceTree = "<group>"; };
+		6E8DBF912359CDDE007E8A64 /* SUURLAssetSourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUURLAssetSourceLoader.h; sourceTree = "<group>"; };
+		6E8DBF922359CDDE007E8A64 /* SUDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUDownloadTask.m; sourceTree = "<group>"; };
+		6E8DBF932359CDDE007E8A64 /* SUURLAssetSourceLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUURLAssetSourceLoader.m; sourceTree = "<group>"; };
+		6E8DBF942359CDDE007E8A64 /* SUAdvancePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SUAdvancePlayer.h; sourceTree = "<group>"; };
+		6E8DBF962359CDDE007E8A64 /* SURange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SURange.m; sourceTree = "<group>"; };
+		6E8DBF972359CDDE007E8A64 /* SURange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SURange.h; sourceTree = "<group>"; };
+		6E8DBF982359CDDE007E8A64 /* SUAdvancePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SUAdvancePlayer.m; sourceTree = "<group>"; };
 		6EAA08AA2354544900DDD157 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		6EAA08AB2354544900DDD157 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		6EAA08AC2354544A00DDD157 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -674,6 +687,7 @@
 		0AFEADB6233657FC00701782 /* ergediandian */ = {
 			isa = PBXGroup;
 			children = (
+				6E8DBF8D2359CDDE007E8A64 /* Player */,
 				6ED507E5235447A1001C04DB /* tbplayer */,
 				6ED507E423544793001C04DB /* category */,
 				0A9316BD234B2C6A009CC212 /* Macros */,
@@ -686,6 +700,38 @@
 				6ED507E023542C67001C04DB /* Media.xcassets */,
 			);
 			path = ergediandian;
+			sourceTree = "<group>";
+		};
+		6E8DBF8D2359CDDE007E8A64 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				6E8DBF8E2359CDDE007E8A64 /* Header.h */,
+				6E8DBF8F2359CDDE007E8A64 /* classes */,
+				6E8DBF942359CDDE007E8A64 /* SUAdvancePlayer.h */,
+				6E8DBF952359CDDE007E8A64 /* utils */,
+				6E8DBF982359CDDE007E8A64 /* SUAdvancePlayer.m */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		6E8DBF8F2359CDDE007E8A64 /* classes */ = {
+			isa = PBXGroup;
+			children = (
+				6E8DBF902359CDDE007E8A64 /* SUDownloadTask.h */,
+				6E8DBF912359CDDE007E8A64 /* SUURLAssetSourceLoader.h */,
+				6E8DBF922359CDDE007E8A64 /* SUDownloadTask.m */,
+				6E8DBF932359CDDE007E8A64 /* SUURLAssetSourceLoader.m */,
+			);
+			path = classes;
+			sourceTree = "<group>";
+		};
+		6E8DBF952359CDDE007E8A64 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				6E8DBF962359CDDE007E8A64 /* SURange.m */,
+				6E8DBF972359CDDE007E8A64 /* SURange.h */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		6EAA08A92354544900DDD157 /* Masonry */ = {
@@ -840,9 +886,11 @@
 				0A931700234B2C6A009CC212 /* UIImage+Metadata.m in Sources */,
 				0A9316E6234B2C6A009CC212 /* SDWebImagePrefetcher.m in Sources */,
 				0A9316F5234B2C6A009CC212 /* NSData+ImageContentType.m in Sources */,
+				6E8DBF9B2359CDDF007E8A64 /* SURange.m in Sources */,
 				0A931717234B2C6A009CC212 /* main.m in Sources */,
 				0A9316E0234B2C6A009CC212 /* SDImageCodersManager.m in Sources */,
 				6ED507DF23542A23001C04DB /* TBPlayer.m in Sources */,
+				6E8DBF992359CDDF007E8A64 /* SUDownloadTask.m in Sources */,
 				6EAA08CB2354544A00DDD157 /* MASViewConstraint.m in Sources */,
 				6ED507DE23542A22001C04DB /* TBVideoRequestTask.m in Sources */,
 				0A9316C5234B2C6A009CC212 /* NSObject+MJProperty.m in Sources */,
@@ -861,6 +909,7 @@
 				0A9316E1234B2C6A009CC212 /* UIImage+MultiFormat.m in Sources */,
 				0A9316D1234B2C6A009CC212 /* NSImage+Compatibility.m in Sources */,
 				0A9316F3234B2C6A009CC212 /* SDWebImageTransition.m in Sources */,
+				6E8DBF9C2359CDDF007E8A64 /* SUAdvancePlayer.m in Sources */,
 				6ED507DD23542A22001C04DB /* TBloaderURLConnection.m in Sources */,
 				0A9316E5234B2C6A009CC212 /* SDWebImageError.m in Sources */,
 				0A9316F1234B2C6A009CC212 /* SDImageLoadersManager.m in Sources */,
@@ -889,6 +938,7 @@
 				0A931704234B2C6A009CC212 /* SDImageCachesManagerOperation.m in Sources */,
 				6EAA08C52354544A00DDD157 /* MASCompositeConstraint.m in Sources */,
 				0A9316CE234B2C6A009CC212 /* AFNetworkReachabilityManager.m in Sources */,
+				6E8DBF9A2359CDDF007E8A64 /* SUURLAssetSourceLoader.m in Sources */,
 				0A9316ED234B2C6A009CC212 /* SDImageCache.m in Sources */,
 				0A9316C4234B2C6A009CC212 /* MJExtensionConst.m in Sources */,
 				0A9316EA234B2C6A009CC212 /* SDDiskCache.m in Sources */,

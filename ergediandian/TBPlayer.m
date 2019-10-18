@@ -76,23 +76,6 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
     return self;
 }
 
-//清空播放器监听属性
-- (void)releasePlayer
-{
-    if (!self.currentPlayerItem) {
-        return;
-    }
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.currentPlayerItem removeObserver:self forKeyPath:@"status"];
-    [self.currentPlayerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [self.currentPlayerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-    [self.currentPlayerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
-    [self.player removeTimeObserver:self.playbackTimeObserver];
-    self.playbackTimeObserver = nil;
-    self.currentPlayerItem = nil;
-}
-
 - (void)playWithUrl:(NSURL *)url showView:(UIView *)showView
 {
     
@@ -104,38 +87,32 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
     self.current  = 0;
     
     _showView = showView;
-    
     NSString *str = [url absoluteString];
     //如果是ios  < 7 或者是本地资源，直接播放
     if (IOS_VERSION < 7.0 || ![str hasPrefix:@"http"]) {
         self.videoAsset  = [AVURLAsset URLAssetWithURL:url options:nil];
         self.currentPlayerItem          = [AVPlayerItem playerItemWithAsset:_videoAsset];
-        if (!self.player) {
-            self.player = [AVPlayer playerWithPlayerItem:self.currentPlayerItem];
-        } else {
-            [self.player replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
-        }
-        self.currentPlayerLayer       = [AVPlayerLayer playerLayerWithPlayer:self.player];
-        self.currentPlayerLayer.frame = _showView.bounds;
         _isLocalVideo = YES;
-        
     } else {   //ios7以上采用resourceLoader给播放器补充数据
-        
         self.resouerLoader          = [[TBloaderURLConnection alloc] init];
         self.resouerLoader.delegate = self;
         NSURL *playUrl              = [_resouerLoader getSchemeVideoURL:url];
         self.videoURLAsset             = [AVURLAsset URLAssetWithURL:playUrl options:nil];
         [_videoURLAsset.resourceLoader setDelegate:_resouerLoader queue:dispatch_get_main_queue()];
         self.currentPlayerItem          = [AVPlayerItem playerItemWithAsset:_videoURLAsset];
-        
-        if (!self.player) {
-            self.player = [AVPlayer playerWithPlayerItem:self.currentPlayerItem];
-        } else {
-            [self.player replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
-        }
+        _isLocalVideo = NO;
+    }
+    
+    if (!self.player) {
+        self.player = [AVPlayer playerWithPlayerItem:self.currentPlayerItem];
+    } else {
+        [self.player replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
+    }
+    if(!self.currentPlayerLayer){
         self.currentPlayerLayer       = [AVPlayerLayer playerLayerWithPlayer:self.player];
         self.currentPlayerLayer.frame = _showView.bounds;
-        _isLocalVideo = NO;
+        self.currentPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        [showView.layer addSublayer:self.currentPlayerLayer];
     }
     
     //获取视频尺寸 480 * 853
@@ -147,11 +124,38 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
 //            videoSize = track.naturalSize;
 //        }
 //    }
+    
+    // 本地文件不设置TBPlayerStateBuffering状态
+    if ([url.scheme isEqualToString:@"file"]) {
+        // 如果已经在TBPlayerStatePlaying，则直接发通知，否则设置状态
+        if (self.state == TBPlayerStatePlaying) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerStateChangedNotification object:nil];
+        } else {
+            self.state = TBPlayerStatePlaying;
+        }
+    } else {
+        // 如果已经在TBPlayerStateBuffering，则直接发通知，否则设置状态
+        if (self.state == TBPlayerStateBuffering) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerStateChangedNotification object:nil];
+        } else {
+            self.state = TBPlayerStateBuffering;
+        }
+    }
+    
+    if (!_navBar) {
+        _navBar = [[UIView alloc] init];
+        [showView addSubview:_navBar];
+        _navBar.hidden = YES;
+        [self buildVideoNavBar];
+    }
+    
+    [[XCHudHelper sharedInstance] showHudOnView:_showView caption:nil image:nil acitivity:YES autoHideTime:0];
+     
+     [self addNotification];
+}
 
-    
-    self.currentPlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    [showView.layer addSublayer:self.currentPlayerLayer];
-    
+- (void)addNotification
+{
     [self.currentPlayerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     [self.currentPlayerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     [self.currentPlayerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
@@ -161,39 +165,8 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.currentPlayerItem];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemPlaybackStalled:) name:AVPlayerItemPlaybackStalledNotification object:self.currentPlayerItem];
-
-    
-    // 本地文件不设置TBPlayerStateBuffering状态
-    if ([url.scheme isEqualToString:@"file"]) {
-        
-        // 如果已经在TBPlayerStatePlaying，则直接发通知，否则设置状态
-        if (self.state == TBPlayerStatePlaying) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerStateChangedNotification object:nil];
-        } else {
-            self.state = TBPlayerStatePlaying;
-        }
-        
-    } else {
-        
-        // 如果已经在TBPlayerStateBuffering，则直接发通知，否则设置状态
-        if (self.state == TBPlayerStateBuffering) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerStateChangedNotification object:nil];
-        } else {
-            self.state = TBPlayerStateBuffering;
-        }
-        
-    }
-    
-
-    if (!_navBar) {
-        _navBar = [[UIView alloc] init];
-        [showView addSubview:_navBar];
-        [self buildVideoNavBar];
-    }
-    
-    [[XCHudHelper sharedInstance] showHudOnView:_showView caption:nil image:nil acitivity:YES autoHideTime:0];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerProgressChangedNotification object:nil];
+    
 }
 
 - (void)seekToTime:(CGFloat)seconds
@@ -206,12 +179,13 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
     seconds = MIN(seconds, self.duration);
     
     [self.player pause];
+    __weak typeof(self) weakSelf = self;
     [self.player seekToTime:CMTimeMakeWithSeconds(seconds, NSEC_PER_SEC) completionHandler:^(BOOL finished) {
-        self.isPauseByUser = NO;
-        [self.player play];
-        if (!self.currentPlayerItem.isPlaybackLikelyToKeepUp) {
-            self.state = TBPlayerStateBuffering;
-            [[XCHudHelper sharedInstance] showHudOnView:_showView caption:nil image:nil acitivity:YES autoHideTime:0];
+        weakSelf.isPauseByUser = NO;
+        [weakSelf.player play];
+        if (!weakSelf.currentPlayerItem.isPlaybackLikelyToKeepUp) {
+            weakSelf.state = TBPlayerStateBuffering;
+            [[XCHudHelper sharedInstance] showHudOnView:weakSelf.showView caption:nil image:nil acitivity:YES autoHideTime:0];
         }
         
     }];
@@ -303,7 +277,9 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
 
 - (void)playerItemDidPlayToEnd:(NSNotification *)notification
 {
-    [self stop];
+    if(self.delegate && [self.delegate respondsToSelector:@selector(playEnd)]){
+        [self.delegate playEnd];
+    }
 }
 
 //在监听播放器状态中处理比较准确
@@ -316,19 +292,14 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     AVPlayerItem *playerItem = (AVPlayerItem *)object;
-    
     if ([keyPath isEqualToString:@"status"]) {
         if ([playerItem status] == AVPlayerStatusReadyToPlay) {
             [self monitoringPlayback:playerItem];// 给播放器添加计时器
-            
         } else if ([playerItem status] == AVPlayerStatusFailed || [playerItem status] == AVPlayerStatusUnknown) {
             [self stop];
         }
-        
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {  //监听播放器的下载进度
-        
         [self calculateDownloadProgress:playerItem];
-        
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
         [[XCHudHelper sharedInstance] showHudOnView:_showView caption:nil image:nil acitivity:YES autoHideTime:0];
         if (playerItem.isPlaybackBufferEmpty) {
@@ -340,16 +311,12 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
 
 - (void)monitoringPlayback:(AVPlayerItem *)playerItem
 {
-    
-    
     self.duration = playerItem.duration.value / playerItem.duration.timescale; //视频总时间
     [self.player play];
     [self updateTotolTime:self.duration];
     [self setPlaySliderValue:self.duration];
-    
     __weak __typeof(self)weakSelf = self;
     self.playbackTimeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
-        
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         CGFloat current = playerItem.currentTime.value/playerItem.currentTime.timescale;
         [strongSelf updateCurrentTime:current];
@@ -357,7 +324,6 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
         if (strongSelf.isPauseByUser == NO) {
             strongSelf.state = TBPlayerStatePlaying;
         }
-        
         // 不相等的时候才更新，并发通知，否则seek时会继续跳动
         if (strongSelf.current != current) {
             strongSelf.current = current;
@@ -366,7 +332,6 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:kTBPlayerProgressChangedNotification object:nil];
         }
-        
     }];
 
 }
@@ -436,7 +401,7 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
     
 }
 
-#pragma mark - UI界面
+#pragma mark - UI
 - (void)buildVideoNavBar
 {
     __weak typeof(self) weakSelf = self;
@@ -660,10 +625,37 @@ NSString *const kTBPlayerLoadProgressChangedNotification = @"TBPlayerLoadProgres
 - (UIImage *)imageNamed:(NSString *)imageName {
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"TBPlayer" ofType:@"bundle"];
-
      NSString *imagePath=  [path stringByAppendingPathComponent:@"images"];
     return [UIImage imageWithContentsOfFile:[imagePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", imageName]]];
-    
 }
 
+#pragma mark - release
+- (void)releasePlayer
+{
+    if (!self.currentPlayerItem) {
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.currentPlayerItem removeObserver:self forKeyPath:@"status"];
+    [self.currentPlayerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [self.currentPlayerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    [self.currentPlayerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+    [self.player removeTimeObserver:self.playbackTimeObserver];
+    self.playbackTimeObserver = nil;
+    self.currentPlayerItem = nil;
+    self.currentPlayerLayer = nil;
+    self.player = nil;
+}
+
+
+#pragma mark - tab view
+- (void)showOrHideTabView:(BOOL)show
+{
+    self.navBar.hidden = !show;
+    self.navBar.alpha = show?0:1;
+    [UIView animateWithDuration:1 animations:^{
+        self.navBar.alpha = show?1:0;
+    }];
+}
 @end

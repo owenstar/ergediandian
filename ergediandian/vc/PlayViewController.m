@@ -8,14 +8,19 @@
 
 #import "PlayViewController.h"
 #import "TBPlayer.h"
+#import "SUAdvancePlayer.h"
+#import <MediaPlayer/MediaPlayer.h>
+
 #import "MainCollectionViewCell.h"
 #define KRightListP isIphoneX?50:0
 #define KRightListN isIphoneX?-250:-200
-@interface PlayViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+#define KUrl(url) [NSURL URLWithString:url]
+@interface PlayViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,TBPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *showView;//获取视频尺寸 480 * 853
 @property (weak, nonatomic) IBOutlet UICollectionView *rightListView;
 @property (nonatomic, assign) BOOL show;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightListRightConst;
+@property (nonatomic, strong) SUAdvancePlayer *player;
 @end
 
 @implementation PlayViewController
@@ -32,15 +37,15 @@
     self.rightListRightConst.constant = KRightListN;
     [self fullScreenButtonClick:UIInterfaceOrientationLandscapeRight];
     [self addTapGestureRecognizer];
-    [[TBPlayer sharedInstance] playWithUrl:[NSURL URLWithString:self.dataArray[self.index].resource] showView:self.showView];
+//    [[TBPlayer sharedInstance] playWithUrl:KUrl(self.dataArray[self.index].resource) showView:self.showView];
+    self.player = [[SUAdvancePlayer alloc] initPlayerWithURL:[NSURL URLWithString:@"http://vodg3ns8cfm.vod.126.net/vodg3ns8cfm/0S0r2IXc_75031_shd.mp4"]];
+    self.player.playerLayer.frame = self.showView.bounds;
+    [self.showView.layer addSublayer:self.player.playerLayer];
+    [self.player play];
     self.dataArray[self.index].isSelected = YES;
     [self.rightListView reloadData];
-}
-
--(void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
     [self.rightListView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    [TBPlayer sharedInstance].delegate = self;
 }
 
 #pragma mark - delegate
@@ -49,6 +54,7 @@
     static NSString * CellIdentifier = @"MainCollectionViewCell";
     MainCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     cell.model = self.dataArray[indexPath.item];
+    cell.border = YES;
     return cell;
 }
 
@@ -57,14 +63,10 @@
     return  self.dataArray.count;
 }
 
-
-#pragma mark --UICollectionViewDelegateFlowLayout
-
-//定义每个Item 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     //    597/335
-    return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.width * 335 / 597);
+    return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.width * 335.0 / 597+40);
 }
 
 //定义每个UICollectionView 的 margin
@@ -73,22 +75,35 @@
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
-#pragma mark --UICollectionViewDelegate
-
 //UICollectionView被选中时调用的方法
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.dataArray[self.index].isSelected = NO;
-    self.index = indexPath.item;
-    self.dataArray[self.index].isSelected = YES;
-    [self.rightListView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-    [[TBPlayer sharedInstance] playWithUrl:[NSURL URLWithString:self.dataArray[indexPath.item].resource] showView:self.showView];
+    [self playItemWithOldIndex:self.index newIndex:indexPath.item];
 }
 
-//返回这个UICollectionView是否可以被选择
 -(BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
+}
+
+-(void)playEnd
+{
+    if((self.index + 1) < self.dataArray.count){
+        [self playItemWithOldIndex:self.index newIndex:self.index+1];
+    }else{
+        [self playItemWithOldIndex:self.index newIndex:0];
+    }
+}
+
+- (void)playItemWithOldIndex:(NSInteger)index newIndex:(NSInteger)newIndex {
+    self.dataArray[index].isSelected = NO;
+    self.dataArray[newIndex].isSelected = YES;
+    [self.rightListView reloadItemsAtIndexPaths:@[
+                                              [NSIndexPath indexPathForItem:index inSection:0],
+                                              [NSIndexPath indexPathForItem:newIndex inSection:0]]];
+    self.index = newIndex;
+    [self.rightListView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    [[TBPlayer sharedInstance]playWithUrl:KUrl(self.dataArray[self.index].resource) showView:self.showView];
 }
 
 #pragma mark - 点击手势
@@ -106,6 +121,7 @@
         self.rightListView.alpha = self.show?1:0;
         self.rightListRightConst.constant = self.show?KRightListP:KRightListN;
     }];
+    [[TBPlayer sharedInstance]showOrHideTabView:self.show];
 }
 
 #pragma mark - 全屏

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="landscape">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14810.12" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,9 +29,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <viewLayoutGuide key="safeArea" id="9Pb-9X-v3M"/>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0LP-Uo-nyK">
-                    <rect key="frame" x="902" y="0.0" width="200" height="393"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.59999999999999998" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0LP-Uo-nyK">
+                    <rect key="frame" x="902" y="0.0" width="200" height="353"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="200" id="9jI-us-sDh"/>
                     </constraints>
@@ -70,7 +68,7 @@
                 <constraint firstItem="ecl-Iq-VLq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="X5N-fN-qwq"/>
                 <constraint firstItem="wU0-Ju-n7n" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="XNs-Wt-AFE"/>
                 <constraint firstItem="wU0-Ju-n7n" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="fNF-2r-fEf"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0LP-Uo-nyK" secondAttribute="bottom" id="gS6-IO-BkO"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="0LP-Uo-nyK" secondAttribute="bottom" constant="40" id="gS6-IO-BkO"/>
                 <constraint firstItem="Lhq-aN-Bgl" firstAttribute="leading" secondItem="wU0-Ju-n7n" secondAttribute="leading" id="nY9-fb-l8P"/>
                 <constraint firstItem="0LP-Uo-nyK" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="tcl-ZG-dFt"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="wU0-Ju-n7n" secondAttribute="bottom" id="wFr-gw-X7V"/>

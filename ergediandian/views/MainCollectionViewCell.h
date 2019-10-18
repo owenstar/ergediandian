@@ -10,5 +10,6 @@
 
 @interface MainCollectionViewCell : UICollectionViewCell
 @property (nonatomic, strong) PlayModel * model;
+@property (nonatomic, assign) BOOL border;
 @end
 

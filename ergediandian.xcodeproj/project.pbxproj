@@ -100,8 +100,6 @@
 		6E571BF8234F33EB00E3AD14 /* PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E571BF6234F33EB00E3AD14 /* PlayViewController.m */; };
 		6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */; };
 		6E571BFB234F387700E3AD14 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFA234F387700E3AD14 /* bg.jpg */; };
-		6E571BFE234F3E0100E3AD14 /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFC234F3E0000E3AD14 /* play.png */; };
-		6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFD234F3E0100E3AD14 /* stopPlay.png */; };
 		6EAA08C32354544A00DDD157 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08AB2354544900DDD157 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		6EAA08C42354544A00DDD157 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08B42354544A00DDD157 /* ViewController+MASAdditions.m */; };
 		6EAA08C52354544A00DDD157 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08B82354544A00DDD157 /* MASCompositeConstraint.m */; };
@@ -112,7 +110,6 @@
 		6EAA08CA2354544A00DDD157 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08BF2354544A00DDD157 /* MASConstraint.m */; };
 		6EAA08CB2354544A00DDD157 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08C12354544A00DDD157 /* MASViewConstraint.m */; };
 		6EAA08CC2354544A00DDD157 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA08C22354544A00DDD157 /* MASViewAttribute.m */; };
-		6ED507E123542C68001C04DB /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ED507E023542C67001C04DB /* Media.xcassets */; };
 		6ED507E8235447DF001C04DB /* NSObject+UIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ED507E7235447DF001C04DB /* NSObject+UIViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -305,8 +302,6 @@
 		6E571BF6234F33EB00E3AD14 /* PlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayViewController.m; sourceTree = "<group>"; };
 		6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayViewController.xib; sourceTree = "<group>"; };
 		6E571BFA234F387700E3AD14 /* bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg.jpg; sourceTree = "<group>"; };
-		6E571BFC234F3E0000E3AD14 /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
-		6E571BFD234F3E0100E3AD14 /* stopPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopPlay.png; sourceTree = "<group>"; };
 		6EAA08AA2354544900DDD157 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		6EAA08AB2354544900DDD157 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		6EAA08AC2354544A00DDD157 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -332,7 +327,6 @@
 		6EAA08C02354544A00DDD157 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		6EAA08C12354544A00DDD157 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
 		6EAA08C22354544A00DDD157 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
-		6ED507E023542C67001C04DB /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		6ED507E6235447DF001C04DB /* NSObject+UIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+UIViewController.h"; sourceTree = "<group>"; };
 		6ED507E7235447DF001C04DB /* NSObject+UIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+UIViewController.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -611,15 +605,13 @@
 		0A9316B3234B2C6A009CC212 /* main */ = {
 			isa = PBXGroup;
 			children = (
-				6E571BFC234F3E0000E3AD14 /* play.png */,
-				6E571BFD234F3E0100E3AD14 /* stopPlay.png */,
 				6E571BFA234F387700E3AD14 /* bg.jpg */,
 				0A9316B4234B2C6A009CC212 /* AppDelegate.h */,
+				0A9316BA234B2C6A009CC212 /* AppDelegate.m */,
 				0A9316B5234B2C6A009CC212 /* Assets.xcassets */,
 				0A9316B6234B2C6A009CC212 /* LaunchScreen.storyboard */,
 				0A9316B8234B2C6A009CC212 /* Main.storyboard */,
 				0A9316B9234B2C6A009CC212 /* main.m */,
-				0A9316BA234B2C6A009CC212 /* AppDelegate.m */,
 				0A9316BB234B2C6A009CC212 /* PrefixHeader.pch */,
 				0A9316BC234B2C6A009CC212 /* Info.plist */,
 			);
@@ -662,7 +654,6 @@
 				0A9316AB234B2C6A009CC212 /* Tools */,
 				0A93169F234B2C6A009CC212 /* vc */,
 				0A9316A2234B2C6A009CC212 /* views */,
-				6ED507E023542C67001C04DB /* Media.xcassets */,
 			);
 			path = ergediandian;
 			sourceTree = "<group>";
@@ -767,10 +758,7 @@
 			files = (
 				0A93170D234B2C6A009CC212 /* TopCollectionViewCell.xib in Resources */,
 				0A931716234B2C6A009CC212 /* Main.storyboard in Resources */,
-				6E571BFE234F3E0100E3AD14 /* play.png in Resources */,
-				6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */,
 				0A931719234B2C6A009CC212 /* Info.plist in Resources */,
-				6ED507E123542C68001C04DB /* Media.xcassets in Resources */,
 				6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */,
 				0A931715234B2C6A009CC212 /* LaunchScreen.storyboard in Resources */,
 				0A931714234B2C6A009CC212 /* Assets.xcassets in Resources */,

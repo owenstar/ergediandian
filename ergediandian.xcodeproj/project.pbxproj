@@ -97,6 +97,9 @@
 		0A931717234B2C6A009CC212 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9316B9234B2C6A009CC212 /* main.m */; };
 		0A931718234B2C6A009CC212 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9316BA234B2C6A009CC212 /* AppDelegate.m */; };
 		0A931719234B2C6A009CC212 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A9316BC234B2C6A009CC212 /* Info.plist */; };
+		57454FDF2383B8FE00916166 /* nihao.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57454FDE2383B8FE00916166 /* nihao.plist */; };
+		57454FE12383BA2D00916166 /* nihao.js in Resources */ = {isa = PBXBuildFile; fileRef = 57454FE02383BA2D00916166 /* nihao.js */; };
+		577FC032236BE3BB0051C2E6 /* imagedd.png in Resources */ = {isa = PBXBuildFile; fileRef = 577FC031236BE3BB0051C2E6 /* imagedd.png */; };
 		6E571BF8234F33EB00E3AD14 /* PlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E571BF6234F33EB00E3AD14 /* PlayViewController.m */; };
 		6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */; };
 		6E571BFB234F387700E3AD14 /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6E571BFA234F387700E3AD14 /* bg.jpg */; };
@@ -301,6 +304,9 @@
 		0A9316BE234B2C6A009CC212 /* URLConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLConst.h; sourceTree = "<group>"; };
 		0A9316BF234B2C6A009CC212 /* SystemMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMacros.h; sourceTree = "<group>"; };
 		0AFEADB4233657FC00701782 /* ergediandian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ergediandian.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57454FDE2383B8FE00916166 /* nihao.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = nihao.plist; sourceTree = "<group>"; };
+		57454FE02383BA2D00916166 /* nihao.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = nihao.js; sourceTree = "<group>"; };
+		577FC031236BE3BB0051C2E6 /* imagedd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imagedd.png; sourceTree = "<group>"; };
 		6E571BF5234F33EB00E3AD14 /* PlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayViewController.h; sourceTree = "<group>"; };
 		6E571BF6234F33EB00E3AD14 /* PlayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayViewController.m; sourceTree = "<group>"; };
 		6E571BF7234F33EB00E3AD14 /* PlayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayViewController.xib; sourceTree = "<group>"; };
@@ -564,6 +570,9 @@
 		0A93169F234B2C6A009CC212 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				577FC031236BE3BB0051C2E6 /* imagedd.png */,
+				57454FDE2383B8FE00916166 /* nihao.plist */,
+				57454FE02383BA2D00916166 /* nihao.js */,
 				0A9316A1234B2C6A009CC212 /* ViewController.h */,
 				0A9316A0234B2C6A009CC212 /* ViewController.m */,
 				6E571BF5234F33EB00E3AD14 /* PlayViewController.h */,
@@ -770,12 +779,15 @@
 				6E571BFE234F3E0100E3AD14 /* play.png in Resources */,
 				6E571BFF234F3E0100E3AD14 /* stopPlay.png in Resources */,
 				0A931719234B2C6A009CC212 /* Info.plist in Resources */,
+				577FC032236BE3BB0051C2E6 /* imagedd.png in Resources */,
+				57454FE12383BA2D00916166 /* nihao.js in Resources */,
 				6ED507E123542C68001C04DB /* Media.xcassets in Resources */,
 				6E571BF9234F33EB00E3AD14 /* PlayViewController.xib in Resources */,
 				0A931715234B2C6A009CC212 /* LaunchScreen.storyboard in Resources */,
 				0A931714234B2C6A009CC212 /* Assets.xcassets in Resources */,
 				6E571BFB234F387700E3AD14 /* bg.jpg in Resources */,
 				0A93170F234B2C6A009CC212 /* MainCollectionViewCell.xib in Resources */,
+				57454FDF2383B8FE00916166 /* nihao.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,10 +28,20 @@
     [self.topCollectionView registerNib:[UINib nibWithNibName:@"TopCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"TopCollectionViewCell"];
     self.automaticallyAdjustsScrollViewInsets = false;
     [self fetchData];
-    // Do any additional setup after loading the view.
+}
+
+#pragma mark - 测试
+- (void)uploadImageData
+{
+    [[LENNetworkRequest sharedManager]POST:@"login" parameters:@{@"name":@"wangxiaobai",@"pwd":@"123456"} success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable obj) {
+        NSLog(@"success-obg:%@",obj);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull obj) {
+        NSLog(@"failure-obg:%@",obj);
+    }];
 }
 
 
+#pragma mark - delegate
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TopCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:collectionView == _topCollectionView ? @"TopCollectionViewCell" :@"BottomCollectionViewCell" forIndexPath:indexPath];
@@ -124,7 +134,9 @@
                 NSLog(@"dsdsdsd");
                 if ([responseObject[@"success"]boolValue]) {
                     NSArray * array = [PlayModel mj_objectArrayWithKeyValuesArray:responseObject[@"data"]];
-                    [self.dataTotalArray addObject:array];
+//                    NSMutableDictionary * dict = [PlayModel mj_keyValuesArrayWithObjectArray:array];
+//                    [self.dataTotalArray addObject:dict];
+                    [self.dataTotalArray addObjectsFromArray:array];
                 }
                 dispatch_semaphore_signal(sem);
                 dispatch_group_leave(group);
@@ -137,8 +149,38 @@
         }
     });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+//        NSLog(@"%@",NSHomeDirectory());
+//       BOOL ret =  [self.dataTotalArray[0] writeToFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/nihao.plist"] atomically:YES];
+//        BOOL ret1 =  [[self.dataTotalArray mj_JSONString] writeToFile:[NSHomeDirectory() stringByAppendingFormat:@"/Documents/nihao.js"] atomically:YES];
         [self.bottomCollectionView reloadData];
     });
+}
+
+- (void)transformUnicodeToStr{
+    for (int i=0;i<self.dataTotalArray.count;i++){
+        NSArray * array = self.dataTotalArray[i];
+        for (int i=0;i<array.count;i++){
+            NSMutableDictionary * dict = array[i];
+            NSString * str = dict[@"name"];
+            if ([str hasPrefix:@"\\U"]) {
+                dict[@"name"] = [self transformStr:str];
+            }
+         }
+    }
+    NSLog(@"0----");
+}
+
+- (NSString *)transformStr:(NSString *)str {
+NSString *tempStr1 =
+[str stringByReplacingOccurrencesOfString:@"\\u"
+                                             withString:@"\\U"];
+NSString *tempStr2 =
+[tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+NSString *tempStr3 =
+[[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
+NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
+NSString *str1 = [NSPropertyListSerialization propertyListWithData:tempData options:NSPropertyListImmutable format:NULL error:NULL];
+return str1;
 }
 
 #pragma mark - lazy
@@ -156,7 +198,11 @@
                       @"api/v1/albums/233/videos",
                       @"api/v1/albums/601/videos",
                       @"api/v1/albums/562/videos",
-                      @"api/v1/albums/514/videos"];
+                      @"api/v1/albums/514/videos",
+                        @"api/v1/albums/175/videos",
+                        @"api/v1/albums/156/videos",
+                        @"api/v1/albums/120/videos",
+                        @"api/v1/albums/706/videos"];
     }
     return  _urlArray;
 }
@@ -175,7 +221,11 @@
                       [TopModel modelWithTitle:@"小马宝莉" selected:NO],
                       [TopModel modelWithTitle:@"大眼兔玩具" selected:NO],
                       [TopModel modelWithTitle:@"超级飞侠" selected:NO],
-                      [TopModel modelWithTitle:@"海底小纵队" selected:NO]];
+                      [TopModel modelWithTitle:@"海底小纵队" selected:NO],
+                      [TopModel modelWithTitle:@"汪汪队" selected:NO],
+                      [TopModel modelWithTitle:@"经典英文儿歌" selected:NO],
+                      [TopModel modelWithTitle:@"经典动画歌曲" selected:NO],
+                      [TopModel modelWithTitle:@"西游记" selected:NO]];
     }
     return  _titleArray;
 }

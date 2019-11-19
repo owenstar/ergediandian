@@ -90,7 +90,8 @@ static NSString *const ServerHTTPHost = @"http://api.ergedd.com/";
                          failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
 {
     NSURLSessionDataTask *task = [self.AFManager POST:URLString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithFileData:fileData name:name fileName:fileName mimeType:mimeType];
+        [formData appendPartWithFileData:fileData name:name fileName:@"dssfdsf" mimeType:mimeType];
+        [formData appendPartWithFileData:fileData name:name fileName:@"sdds" mimeType:mimeType];
     } progress:uploadProgress success:success failure:failure];
     
     return task;

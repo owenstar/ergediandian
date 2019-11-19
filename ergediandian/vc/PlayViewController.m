@@ -10,8 +10,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 #import "MainCollectionViewCell.h"
-#define KRightListP isIphoneX?50:0
-#define KRightListN isIphoneX?-250:-200
+#define KRightListWidth (isPad ? 1.5 : 1) *200
 #define KUrl(url) [NSURL URLWithString:url]
 
 @implementation JYVideoPlayer
@@ -23,13 +22,20 @@
 @end
 
 @interface PlayViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UIView *controlView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backBtnWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightListWidth;//适配ipad 右侧列表
 @property (weak, nonatomic) IBOutlet JYVideoPlayer *videoLayer;//获取视频尺寸 480 * 853
 @property (weak, nonatomic) IBOutlet UICollectionView *rightListView;
-@property (nonatomic, assign) BOOL show;
+@property (nonatomic, assign) BOOL show;//是否显示右侧的列表
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightListRightConst;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+@property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *totalTimeLabel;
 @property (nonatomic, strong) AVPlayer * player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (strong, nonatomic) id timeObserver;                      //视频播放时间观察者
 @end
 
 @implementation PlayViewController
@@ -37,26 +43,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupSubview];
-    [self addPlayerNotification];
 }
 
 #pragma mark - init
 - (void)setupSubview
 {
+    self.rightListWidth.constant = KRightListWidth;
+    self.backBtnWidth.constant = 80 * ((isPad ? 1.5 : 1));
     [self.rightListView registerNib:[UINib nibWithNibName:@"MainCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"MainCollectionViewCell"];
-    self.rightListRightConst.constant = KRightListN;
+    self.rightListRightConst.constant = -KRightListWidth;
     [self fullScreenButtonClick:UIInterfaceOrientationLandscapeRight];
     [self addTapGestureRecognizer];
-//    [[TBPlayer sharedInstance] playWithUrl:KUrl(self.dataArray[self.index].resource) showView:self.showView];
     [self playVideoWithUrl:KUrl(self.dataArray[self.index].resource)];
-//    self.player = [[SUAdvancePlayer alloc] initPlayerWithURL:[NSURL URLWithString:self.dataArray[self.index].resource]];
-//    self.player.playerLayer.frame = self.showView.bounds;
-//    [self.showView.layer addSublayer:self.player.playerLayer];
-//    [self.player play];
     self.dataArray[self.index].isSelected = YES;
     [self.rightListView reloadData];
     [self.rightListView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-//    [TBPlayer sharedInstance].delegate = self;
 }
 
 - (void)playVideoWithUrl:(NSURL *)url{
@@ -64,18 +65,26 @@
     self.videoLayer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     AVAsset * asset = [AVAsset assetWithURL:url];
     self.playerItem = [[AVPlayerItem alloc] initWithAsset:asset];
-    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    if(!self.player){
+        self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    }else{
+        [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
+    }
     // 将player输出到显示动画层playerLayer
     AVPlayerLayer * playerLayer = (AVPlayerLayer *)self.videoLayer.layer;
     [playerLayer setPlayer:self.player];
-    [self.player play];
+    [self addPlayerNotification];
+    [self.indicator startAnimating];
+    self.controlView.hidden = YES;
+    [self setTime:0 withTotal:0];
 }
 
 - (void)releaseVideoPlayer
 {
     [self.player pause];
+    [self.player removeTimeObserver:self.timeObserver];
+    [self removeNotification];
     self.playerItem = nil;
-    self.player = nil;
 }
 
 #pragma mark - delegate
@@ -125,7 +134,6 @@
     self.index = newIndex;
     [self.rightListView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
     [self playVideoWithUrl:KUrl(self.dataArray[self.index].resource)];
-//    [[TBPlayer sharedInstance]playWithUrl:KUrl(self.dataArray[self.index].resource) showView:self.showView];
 }
 
 #pragma mark - 点击手势
@@ -141,7 +149,7 @@
     self.rightListView.alpha = self.show?0:1;
     [UIView animateWithDuration:1 animations:^{
         self.rightListView.alpha = self.show?1:0;
-        self.rightListRightConst.constant = self.show?KRightListP:KRightListN;
+        self.rightListRightConst.constant = self.show?(isIphoneX?44:0):-KRightListWidth;
     }];
 }
 
@@ -152,7 +160,6 @@
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskLandscapeLeft;
-//    return UIInterfaceOrientationMaskPortrait  | UIInterfaceOrientationMaskLandscapeLeft;
 }
 
 - (void)fullScreenButtonClick:(UIInterfaceOrientation)orientation{
@@ -168,7 +175,7 @@
 #pragma mark - xib action
 - (IBAction)backAction:(UIButton *)sender {
     [self releaseVideoPlayer];
-    [self fullScreenButtonClick:UIInterfaceOrientationPortrait];
+//    [self fullScreenButtonClick:UIInterfaceOrientationPortrait];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -182,19 +189,24 @@
 
 
 #pragma mark - player
+- (void)removeNotification
+{
+    [self.playerItem removeObserver:self forKeyPath:@"status"];
+    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [self.playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    [self.playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 
 - (void)addPlayerNotification
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayGround) name:UIApplicationDidBecomeActiveNotification object:nil];
-//    //播放完成
-//    AVPlayerItemDidPlayToEndTimeNotification
-//    //播放失败
-//    AVPlayerItemFailedToPlayToEndTimeNotification
-//    //异常中断
-//    AVPlayerItemPlaybackStalledNotification
+    //    //播放完成
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    //    //播放失败
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemFailedToPlayToEnd:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:self.playerItem];
+    //    //异常中断
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemPlaybackStalled:) name:AVPlayerItemPlaybackStalledNotification object:self.playerItem];
 //    监听AVPlayerItem状态
     [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
@@ -204,7 +216,8 @@
     [self.playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
 //    playbackLikelyToKeepUp状态
     [self.playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
-    
+   //时间监听
+    [self addProgressObserver];
 //    //声音被打断的通知（电话打来）
 //    AVAudioSessionInterruptionNotification
 //    //耳机插入和拔出的通知
@@ -247,6 +260,8 @@
         AVPlayerItem * item = (AVPlayerItem *)object;
         if (item.status == AVPlayerItemStatusReadyToPlay) {
              [self.player play];
+             self.controlView.hidden = NO;
+            [self.indicator stopAnimating];
         }else if (item.status == AVPlayerItemStatusFailed){
              NSLog(@"failed");
         }
@@ -259,10 +274,12 @@
     
     if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         //缓冲区空了，所需做的处理操作
+        [self.indicator startAnimating];
     }
     
     if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         //缓冲就绪，所需做的处理操作
+        [self.indicator stopAnimating];
     }
 }
 
@@ -281,6 +298,39 @@
 //- (void)seekToTime:(CMTime)time toleranceBefore:(CMTime)toleranceBefore toleranceAfter:(CMTime)toleranceAfter;
 ////此方法包含回调事件
 //- (void)seekToTime:(CMTime)time toleranceBefore:(CMTime)toleranceBefore toleranceAfter:(CMTime)toleranceAfter completionHandler:(void (^)(BOOL finished))completionHandler NS_AVAILABLE(10_7, 5_0);
+- (void)addProgressObserver{
+    //这里设置每秒执行一次
+    __weak __typeof(self) weakself = self;
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        float current = CMTimeGetSeconds(time);
+        float total = CMTimeGetSeconds([weakself.playerItem duration]);
+        NSLog(@"当前已经播放%f",current);
+        if (current) {
+            [weakself setTime:current withTotal:total];
+        }
+    }];
+}
+
+
+#pragma mark - 私有方法
+//设置播放时长
+- (void)setTime:(float)current withTotal:(float)total{
+    self.slider.value = current/total;
+    self.currentTimeLabel.text = [self displayTime:(int)current];
+    self.totalTimeLabel.text = [self displayTime:(int)total];
+}
+
+- (NSString*)displayTime:(int)timeInterval{
+    NSString * time = @"";
+    int seconds = timeInterval % 60;
+    int minutes = (timeInterval / 60) % 60;
+    int hours = timeInterval / 3600;
+    NSString * secondsStr=seconds<10?[NSString stringWithFormat:@"%@%d",@"0",seconds]:[NSString stringWithFormat:@"%d",seconds];
+    NSString * minutesStr=minutes<10?[NSString stringWithFormat:@"%@%d",@"0",minutes]:[NSString stringWithFormat:@"%d",minutes];
+    NSString * hoursStr=hours<10?[NSString stringWithFormat:@"%@%d",@"0",hours]:[NSString stringWithFormat:@"%d",hours];
+    time = [NSString stringWithFormat:@"%@%@%@%@%@",hoursStr,@":",minutesStr,@":",secondsStr];
+    return time;
+}
 
 -(void)dealloc
 {

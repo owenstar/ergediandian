@@ -239,7 +239,13 @@ return str1;
 }
 
 #pragma mark - rotate
+
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

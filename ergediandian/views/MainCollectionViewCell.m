@@ -33,8 +33,8 @@
     _border = border;
     if(border){
         self.bgView.layer.borderColor = self.model.isSelected?[UIColor redColor].CGColor:[UIColor lightGrayColor].CGColor;
-        self.bgView.layer.borderWidth = 5;
-        self.bgView.layer.cornerRadius = 8;
+        self.bgView.layer.borderWidth = isPad?10:5;
+        self.bgView.layer.cornerRadius = isPad?10:5;
         self.bgView.layer.masksToBounds = YES;
     }
 }
